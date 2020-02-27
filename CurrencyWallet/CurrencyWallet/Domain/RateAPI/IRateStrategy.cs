@@ -1,13 +1,16 @@
 ﻿using CurrencyWallet.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CurrencyWallet.Domain.RateAPI
 {
+    /// <summary>
+    /// Стратегия для реализации парсинга валют
+    /// </summary>
     internal interface IRateStrategy
     {
+        /// <summary>
+        /// Запустить обновление
+        /// </summary>
         IReadOnlyList<RateModel> Update();
     }
 }
