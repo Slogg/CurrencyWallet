@@ -16,8 +16,8 @@ namespace CurrencyWallet.Models
         public string Currency { get; set; }
 
         /// <summary>
-        /// Курс
+        /// Значение
         /// </summary>
-        public decimal Value { get; set; }
+        public decimal Amount { get; set; }
     }
 }
