@@ -14,5 +14,15 @@ namespace CurrencyWallet.DAL
         {
             RateDict = rateContext.Update;
         }
+
+        /// <summary>
+        /// Получить валюту со значением
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <returns></returns>
+        public decimal GetRate(string currency)
+        {
+            return RateDict.First(x => x.Currency.Equals(currency)).Amount;
+        }
     }
 }
