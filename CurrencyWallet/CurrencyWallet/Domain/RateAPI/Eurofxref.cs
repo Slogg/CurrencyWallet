@@ -11,9 +11,9 @@ namespace CurrencyWallet.Domain.RateAPI
     {
         private string _adress = @"http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
 
-        public IReadOnlyList<Rate> Update()
+        public IReadOnlyList<RateModel> Update()
         {
-            List<Rate> rates = new List<Rate>();
+            List<RateModel> rates = new List<RateModel>();
 
             var doc = new XmlDocument();
             doc.Load(_adress);
@@ -22,7 +22,7 @@ namespace CurrencyWallet.Domain.RateAPI
 
             if (nodes != null)
             {
-                rates = nodes.Cast<XmlNode>().Select(nd => new Rate
+                rates = nodes.Cast<XmlNode>().Select(nd => new RateModel
                 {
                     Currency = nd.Attributes["currency"].Value,
                     Value = decimal.Parse(nd.Attributes["rate"].Value)

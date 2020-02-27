@@ -8,6 +8,6 @@ namespace CurrencyWallet.Domain.RateAPI
 {
     internal interface IRateStrategy
     {
-        IReadOnlyList<Rate> Update();
+        IReadOnlyList<RateModel> Update();
     }
 }
