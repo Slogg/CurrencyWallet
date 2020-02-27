@@ -2,7 +2,7 @@
 
 namespace CurrencyWallet.Domain
 {
-    internal interface IRateValidate
+    public interface IRateValidate
     {
         void CheckCurrencyInDictionry(string currency);
         void CheckRateValueInDictionry(RateModel rate);

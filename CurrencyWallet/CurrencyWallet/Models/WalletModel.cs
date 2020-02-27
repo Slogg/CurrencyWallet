@@ -9,7 +9,7 @@ namespace CurrencyWallet.Models
     /// <summary>
     /// Кошелек пользователя
     /// </summary>
-    internal sealed class WalletModel
+    public sealed class WalletModel
     {
         /// <summary>
         /// Пользователь

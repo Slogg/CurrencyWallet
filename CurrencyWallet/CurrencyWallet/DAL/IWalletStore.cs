@@ -6,7 +6,7 @@ namespace CurrencyWallet.DAL
     /// <summary>
     /// Хранилище кошельков
     /// </summary>
-    internal interface IWalletStore
+    public interface IWalletStore
     {
 
         /// <summary>

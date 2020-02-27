@@ -8,7 +8,7 @@ namespace CurrencyWallet.DAL
     /// <summary>
     /// <see cref="IWalletStore"/>
     /// </summary>
-    internal sealed class WalletStore : IWalletStore
+    public sealed class WalletStore : IWalletStore
     {
         private List<WalletModel> _wallets;
 

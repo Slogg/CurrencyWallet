@@ -8,7 +8,7 @@ namespace CurrencyWallet.Models
     /// <summary>
     /// Модель валюты
     /// </summary>
-    internal sealed class RateModel
+    public sealed class RateModel
     {
         /// <summary>
         /// Валюта

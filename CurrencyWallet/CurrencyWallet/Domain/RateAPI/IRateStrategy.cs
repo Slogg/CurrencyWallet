@@ -6,7 +6,7 @@ namespace CurrencyWallet.Domain.RateAPI
     /// <summary>
     /// Стратегия для реализации парсинга валют
     /// </summary>
-    internal interface IRateStrategy
+    public interface IRateStrategy
     {
         /// <summary>
         /// Запустить обновление

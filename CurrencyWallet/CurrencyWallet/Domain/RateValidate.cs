@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyWallet.Domain
 {
-    internal sealed class RateValidate : IRateValidate
+    public sealed class RateValidate : IRateValidate
     {
         private IReadOnlyList<RateModel> _rates;
 

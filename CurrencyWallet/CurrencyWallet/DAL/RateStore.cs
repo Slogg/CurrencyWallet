@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace CurrencyWallet.DAL
 {
-    internal sealed class RateStore : IRateStore
+    public sealed class RateStore : IRateStore
     {
         public IReadOnlyList<RateModel> RateDict { get; private set; }
 

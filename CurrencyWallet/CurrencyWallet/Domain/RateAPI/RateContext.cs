@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CurrencyWallet.Domain.RateAPI
 {
-    internal class RateContext
+    public class RateContext
     {
         private IRateStrategy _rateStrategy;
 

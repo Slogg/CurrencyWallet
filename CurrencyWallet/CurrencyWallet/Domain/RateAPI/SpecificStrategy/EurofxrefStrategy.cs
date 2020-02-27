@@ -9,7 +9,7 @@ namespace CurrencyWallet.Domain.RateAPI.SpecificStrategy
     /// <summary>
     /// Парсинг валют с ecb.europa.eu
     /// </summary>
-    internal class EurofxrefStrategy : IRateStrategy
+    public class EurofxrefStrategy : IRateStrategy
     {
         private string _adress = @"http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
 
