@@ -1,11 +1,12 @@
 ﻿using CurrencyWallet.DAL;
 using CurrencyWallet.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CurrencyWallet.Domain
 {
-    internal sealed class WalletHandling
+    public sealed class WalletHandling
     {
         private IWalletStore _walletStore;
         private IRateValidate _rateValidate;
@@ -15,7 +16,9 @@ namespace CurrencyWallet.Domain
         public WalletHandling(IWalletStore walletStore, IRateStore rateStore, IRateValidate rateValidate, string userName)
         {
             _walletStore = walletStore;
+            _rateValidate = rateValidate;
             _rateStore = rateStore;
+            _userName = userName;
             IsUserExists();
         }
 
@@ -27,18 +30,8 @@ namespace CurrencyWallet.Domain
             _rateValidate.CheckCurrencyInDictionry(rate.Currency);
             _rateValidate.IsUnsigned(rate.Amount);
 
-            decimal? amount = _walletStore.GetMoneyByUser(_userName)
-                .FirstOrDefault(r => r.Currency.Equals(rate.Currency))?.Amount;
-
-            if (amount == null)
-            {
-                _walletStore.AddCurrency(_userName, rate);
-            }
-            else
-            {
-                rate.Amount += amount.Value;
-                _walletStore.UpdateAmount(_userName, rate);
-            }
+            decimal? amount = GetAmount(rate.Currency);
+            UpdateOrAddAmount(rate, amount);
         }
 
         /// <summary>
@@ -83,6 +76,15 @@ namespace CurrencyWallet.Domain
             UpdateOrAddAmount(rateTo, amountTo);
         }
 
+        /// <summary>
+        /// Получить все финансы пользователя
+        /// </summary>
+        /// <returns></returns>
+        public IReadOnlyList<RateModel> GetAllMoneyUser()
+        {
+            return _walletStore.GetMoneyByUser(_userName);
+        }
+
         // Обновить значение в кошельке или добавить новую валюту со значением
         private void UpdateOrAddAmount(RateModel rate, decimal? amount)
         {
@@ -113,14 +115,14 @@ namespace CurrencyWallet.Domain
         private decimal? GetAmount(string currency)
         {
             decimal? amount = _walletStore.GetMoneyByUser(_userName)
-                .FirstOrDefault(r => r.Currency.Equals(currency))?.Amount;
+                ?.FirstOrDefault(r => r.Currency.Equals(currency))?.Amount;
             return amount;
         }
 
         // проверка существования польователя в БД
         private void IsUserExists()
         {
-            if (_walletStore.IsUserExists(_userName))
+            if (!_walletStore.IsUserExists(_userName))
             {
                 throw new Exception($"Пользователь {_userName} не найден");
             }

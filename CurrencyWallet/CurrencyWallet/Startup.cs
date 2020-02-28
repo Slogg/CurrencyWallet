@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CurrencyWallet.DAL;
+using CurrencyWallet.Domain;
 using CurrencyWallet.Domain.RateAPI;
 using CurrencyWallet.Domain.RateAPI.SpecificStrategy;
 using Microsoft.AspNetCore.Builder;
@@ -33,7 +35,9 @@ namespace CurrencyWallet
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddTransient(r => new RateContext(new EurofxrefStrategy()));
-
+            services.AddSingleton<IRateStore>(r => new RateStore(new RateContext(new EurofxrefStrategy())));
+            services.AddSingleton<IWalletStore, WalletStore>();
+            services.AddTransient<IRateValidate, RateValidate>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -53,7 +57,6 @@ namespace CurrencyWallet
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {

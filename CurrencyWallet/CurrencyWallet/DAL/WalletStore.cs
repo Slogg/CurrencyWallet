@@ -8,9 +8,9 @@ namespace CurrencyWallet.DAL
     /// <summary>
     /// <see cref="IWalletStore"/>
     /// </summary>
-    public sealed class WalletStore : IWalletStore
+    public class WalletStore : IWalletStore
     {
-        private List<WalletModel> _wallets;
+        public List<WalletModel> Wallets { get; private set; }
 
         public WalletStore()
         {
@@ -40,21 +40,25 @@ namespace CurrencyWallet.DAL
         /// </summary>
         public List<RateModel> GetMoneyByUser(string userName)
         {
-            return _wallets.First(x => x.User.Equals(userName)).Money;
+            return Wallets.First(x => x.User.UserName.Equals(userName)).Money;
         }
 
         public bool IsUserExists(string userName)
         {
-            return _wallets.Any(x => x.User.UserName.Equals(userName));
+            return Wallets.Any(x => x.User.UserName.Equals(userName));
         }
 
         // Наполнить пользователями
         private void LazyWallets()
         {
-            _wallets = new List<WalletModel>()
+            Wallets = new List<WalletModel>()
             {
                 new WalletModel() { User = new IdentityUser("пользователь1"), Money = new List<RateModel>() },
-                new WalletModel() { User = new IdentityUser("пользователь2"), Money = new List<RateModel>() }
+                new WalletModel() { User = new IdentityUser("пользователь2"), Money = new List<RateModel>()
+                {
+                    new RateModel{ Currency = "USD", Amount = 20 },
+                    new RateModel{ Currency = "CAD", Amount = 12 }
+                }}
             };
         }
     }

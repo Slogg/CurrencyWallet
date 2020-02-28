@@ -8,6 +8,7 @@ namespace CurrencyWallet.DAL
     /// </summary>
     public interface IWalletStore
     {
+        List<WalletModel> Wallets { get; }
 
         /// <summary>
         /// Добавить новую валюту

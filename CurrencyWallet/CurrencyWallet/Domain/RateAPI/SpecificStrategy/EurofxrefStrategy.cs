@@ -31,7 +31,7 @@ namespace CurrencyWallet.Domain.RateAPI.SpecificStrategy
                 rates = nodes.Cast<XmlNode>().Select(nd => new RateModel
                 {
                     Currency = nd.Attributes["currency"].Value,
-                    Amount = decimal.Parse(nd.Attributes["rate"].Value)
+                    Amount = decimal.Parse(nd.Attributes["rate"].Value.Replace('.', ','))
                 }).ToList();
             }
             else

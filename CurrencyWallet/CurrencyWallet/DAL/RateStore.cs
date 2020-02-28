@@ -10,7 +10,7 @@ namespace CurrencyWallet.DAL
     {
         public IReadOnlyList<RateModel> RateDict { get; private set; }
 
-        private RateStore(RateContext rateContext)
+        public RateStore(RateContext rateContext)
         {
             RateDict = rateContext.Update;
         }
