@@ -25,31 +25,34 @@ namespace CurrencyWallet.Domain
         /// <summary>
         /// Пополнить кошелек
         /// </summary>
-        public void ReplenishWallet(RateModel rate)
+        public decimal ReplenishWallet(RateModel rate)
         {
             _rateValidate.CheckCurrencyInDictionry(rate.Currency);
             _rateValidate.IsUnsigned(rate.Amount);
 
             decimal? amount = GetAmount(rate.Currency);
             UpdateOrAddAmount(rate, amount);
+            return rate.Amount;
         }
 
         /// <summary>
         /// Снять деньги с кошелька
         /// </summary>
-        public void WithdrawModey(RateModel rate)
+        public decimal WithdrawModey(RateModel rate)
         {
             _rateValidate.CheckCurrencyInDictionry(rate.Currency);
             _rateValidate.IsUnsigned(rate.Amount);
 
             decimal amount = TryGetAmount(rate.Currency);
 
-            if (rate.Amount < amount)
+            if (rate.Amount > amount)
             {
                 throw new Exception($"Недостаточно средств для снятия. Не хватает: {Math.Abs(rate.Amount - amount)} {rate.Currency}");
             }
-            rate.Amount -= amount;
+            rate.Amount = amount - rate.Amount;
             _walletStore.UpdateAmount(_userName, rate);
+
+            return rate.Amount;
         }
 
         /// <summary>
@@ -69,10 +72,11 @@ namespace CurrencyWallet.Domain
             {
                 throw new Exception($"Недостаточно средств для перевода. Не хватает: {Math.Abs(rateFrom.Amount - amountFrom)} {rateFrom.Currency}");
             }
-            decimal? amountTo = GetAmount(rateFrom.Currency);
+            decimal? amountTo = GetAmount(rateTo.Currency);
 
             rateTo.Amount = rateFrom.Amount * _rateStore.GetRate(rateTo.Currency) / _rateStore.GetRate(rateFrom.Currency);
-
+            rateFrom.Amount = amountFrom - rateFrom.Amount;
+            _walletStore.UpdateAmount(_userName, rateFrom);
             UpdateOrAddAmount(rateTo, amountTo);
         }
 
